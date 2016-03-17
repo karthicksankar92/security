@@ -4,7 +4,7 @@
 
 $dbOptions = array(
 	'db_host' => 'karsecurity.c0idd0qyk4a7.us-west-2.rds.amazonaws.com:3306',
-	'db_user' => 'karthick92',
+	'db_user' => 'karthick91',
 	'db_pass' => 'Karthick92',
 	'db_name' => 'webchat'
 );
