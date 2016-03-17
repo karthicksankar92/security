@@ -3,13 +3,13 @@
 /* Database Configuration. Add your details below */
 
 $dbOptions = array(
-	'db_host' => 'karsecurity.c0idd0qyk4a7.us-west-2.rds.amazonaws.com',
-	'db_port' => '3306',
+	'db_host' => 'karsecurity.c0idd0qyk4a7.us-west-2.rds.amazonaws.com:3306',
+	// 'db_port' => '3306',
 	'db_user' => 'karthick92',
 	'db_pass' => 'Karthick92',
 	'db_name' => 'webchat'
 );
-
+print_r($dbOptions);
 /* Database Config End */
 
 
