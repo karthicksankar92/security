@@ -3,7 +3,8 @@
 /* Database Configuration. Add your details below */
 
 $dbOptions = array(
-	'db_host' => 'ec2-52-36-232-122.us-west-2.compute.amazonaws.com:3306',
+	'db_host' => '52.36.232.122',
+	'db_port' => '3306',
 	'db_user' => 'cloud',
 	'db_pass' => 'karthicksankar92',
 	'db_name' => 'securechat'
