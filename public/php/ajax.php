@@ -3,9 +3,9 @@
 /* Database Configuration. Add your details below */
 
 $dbOptions = array(
-	'db_host' => 'localhost',
+	'db_host' => '52.36.232.122',
 	'db_user' => 'root',
-	'db_pass' => '',
+	'db_pass' => 'password',
 	'db_name' => 'securechat'
 );
 
