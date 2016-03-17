@@ -79,11 +79,15 @@ var chat = {
 
 			// $('#keyModal').modal('show');
 			var text = $('#chatText').val();
+			sendplaintext(text);
 			var key = '';
 			key = $('#key').val();
 			console.log(key.length);
 			var encrypted='';
 			var algo=$('#algorithm').val();
+			// $('#algorithm1').value=algo;
+			         document.getElementById('algorithm1').value = algo;
+			
 
 			if(algo==0)
 		   	{
@@ -97,12 +101,17 @@ var chat = {
 			    case '1':    //AES
 			        
 			         encrypted = CryptoJS.AES.encrypt(text, key);
+			         document.getElementById('ciphertext').value = encrypted;
+			         // ('#ciphertext').value=encrypted;
+			        
 			        break;
 			    case '2':   //RSA
 			        var pubkey = $('#pubkey').val();
 			         var encrypt = new JSEncrypt();
                      encrypt.setPublicKey(pubkey);
                      encrypted = encrypt.encrypt(text);
+			         document.getElementById('ciphertext').value = encrypted;
+
                      console.log('encrypted:'+encrypted);
 			        break;
 			    case '3':   //Digital
@@ -112,6 +121,8 @@ var chat = {
 			       // console.log('hash');
 			        // key = $('#key').val();
 			        encrypted = Crypto.HMAC(Crypto.SHA1, text, key);
+			        document.getElementById('ciphertext').value = encrypted;
+
 			        // console.log(encrypted);
 			        break;
 			 

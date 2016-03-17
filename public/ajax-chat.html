@@ -34,7 +34,7 @@
         <form id="submitForm" >
             <input id="chatText" name="chatText" class="rounded" required="required" maxlength="255" placeholder="Enter text"/>
             <select id="algorithm" name="algorithm" style="color:black">
-                <option value="0">Select encryption Algorithm</option>
+                <option value="0">Select Encryption Algorithm</option>
                 <option value="1">Symmetric Encryption(AES)</option>
                 <option value="2">Asymmetric Encryption(RSA)</option>
                 <option value="3">Digital Signature</option>
@@ -54,8 +54,41 @@
         </form>
         
     </div>
-    
+   
+       
+
+<div class="panel panel-default" style="margin-top:10px;">
+  <div class="panel-heading">
+    <h3 class="panel-title">Decrypt Ciphertext</h3>
+  </div>
+  <div class="panel-body">
+  
+    <input id="ciphertext" name="ciphertext" class="rounded" required="required" maxlength="255" placeholder="Enter ciphertext" style="width:480px;" /><br/><br/>
+
+    <input type="password" id="decryptkey" class="rouded"  placeholder="Provide Key"style="width:480px;"/><br/><br/>
+    <select id="algorithm1" name="algorithm1" style="color:black">
+                <option value="0">Select Decryption Algorithm</option>
+                <option value="1">Symmetric Encryption(AES)</option>
+                <option value="2">Asymmetric Encryption(RSA)</option>
+                <option value="3">Digital Signature</option>
+                <option value="4">Hash Function</option>
+
+            </select><br/><br/>
+    <textarea id="prikey" rows="15" cols="65" style="color:black;display:none"></textarea>
+    <div class="btn-group btn-group-justified" role="group" >
+  <div class="btn-group" role="group">
+   <button type="submit" class="btn btn-primary" id="decryptbutton">Decrypt</button>
+  </div>
+  </div>
+           <br/><br/>
+    <input id="decryptedtext" name="decryptedtext" class="rounded" required="required" maxlength="255" placeholder=""style="width:480px;"/>
+  
+  </div>
 </div>
+
+    </div>
+    
+
 
 
 <!--  -->
@@ -122,6 +155,7 @@
 <!-- <script src="js/hmac.js"></script> -->
 
 <!-- <script src="js/sha256.js"></script> -->
+<script src="js/decrypt.js"></script>
 
 <script src="js/script.js"></script>
 </body>
