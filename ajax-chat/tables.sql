@@ -7,8 +7,6 @@ CREATE TABLE `webchat_lines` (
   `author` varchar(16) NOT NULL,
   `gravatar` varchar(32) NOT NULL,
   `text` varchar(255) NOT NULL,
-  `ciphertext` varchar(255),
-  `algorithm` varchar(255) ,
   `ts` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `ts` (`ts`)
