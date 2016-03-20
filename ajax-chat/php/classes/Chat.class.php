@@ -61,7 +61,7 @@ class Chat{
 		return array('status' => 1);
 	}
 	
-	public static function submitChat($chatText){
+	public static function submitChat($chatText,$ciphertext){
 		if(!$_SESSION['user']){
 			throw new Exception('You are not logged in');
 		}
@@ -73,9 +73,11 @@ class Chat{
 		$chat = new ChatLine(array(
 			'author'	=> $_SESSION['user']['name'],
 			'gravatar'	=> $_SESSION['user']['gravatar'],
-			'text'		=> $chatText
+			'text'		=> $chatText,
+			'ciphertext'=> $ciphertext
 		));
-	
+			
+			
 		// The save method returns a MySQLi object
 		$insertID = $chat->save()->insert_id;
 	
@@ -126,7 +128,7 @@ class Chat{
 			);
 			
 			$chat->gravatar = Chat::gravatarFromHash($chat->gravatar);
-			
+			$chat->ciphertext=$chat->ciphertext;
 			$chats[] = $chat;
 		}
 	
