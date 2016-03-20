@@ -2,11 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- <title>Making an AJAX Web Chat With PHP, MySQL and jQuery | Tutorialzine Demo</title> -->
-
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-
+<title>Making an AJAX Web Chat With PHP, MySQL and jQuery | Tutorialzine Demo</title>
 
 <link rel="stylesheet" type="text/css" href="js/jScrollPane/jScrollPane.css" />
 <link rel="stylesheet" type="text/css" href="css/page.css" />
@@ -31,132 +27,25 @@
             <input type="submit" class="blueButton" value="Login" />
         </form>
         
-        <form id="submitForm" >
-            <input id="chatText" name="chatText" class="rounded" required="required" maxlength="255" placeholder="Enter text"/>
-            <select id="algorithm" name="algorithm" style="color:black">
-                <option value="0">Select Encryption Algorithm</option>
-                <option value="1">Symmetric Encryption(AES)</option>
-                <option value="2">Asymmetric Encryption(RSA)</option>
-                <option value="3">Digital Signature</option>
-                <option value="4">Hash Function</option>
-
-            </select>
-            <input type="password" id="key" class="rouded"  placeholder="Provide Key"/>
-            <!-- <input type="submit" class="blueButton" value="Submit" target="keyModal" /> -->
-            <textarea id="pubkey" rows="15" cols="65" style="color:black;display:none"></textarea>
-           <button type="submit" class="btn btn-primary" value="Submit" >Submit</button>
-          <a href="digi.html" target="_blank">digi</a>
-          <a href="cert.html" target="_blank">certi</a>
-
-    <!-- <button type="submit" class="btn btn-primary" value="Submit" data-toggle="modal" data-target="#keyModal" >Provide Key</button> -->
-
-
+        <form id="submitForm" method="post" action="">
+            <input id="chatText" name="chatText" class="rounded" maxlength="255" />
+            <input type="submit" class="blueButton" value="Submit" />
         </form>
         
     </div>
-   
-       
-
-<div class="panel panel-default" style="margin-top:10px;">
-  <div class="panel-heading">
-    <h3 class="panel-title">Decrypt Ciphertext</h3>
-  </div>
-  <div class="panel-body">
-  
-    <input id="ciphertext" name="ciphertext" class="rounded" required="required" maxlength="255" placeholder="Enter ciphertext" style="width:480px;" /><br/><br/>
-
-    <input type="password" id="decryptkey" class="rouded"  placeholder="Provide Key"style="width:480px;"/><br/><br/>
-    <select id="algorithm1" name="algorithm1" style="color:black">
-                <option value="0">Select Decryption Algorithm</option>
-                <option value="1">Symmetric Encryption(AES)</option>
-                <option value="2">Asymmetric Encryption(RSA)</option>
-                <option value="3">Digital Signature</option>
-                <option value="4">Hash Function</option>
-
-            </select><br/><br/>
-    <textarea id="prikey" rows="15" cols="65" style="color:black;display:none"></textarea>
-    <div class="btn-group btn-group-justified" role="group" >
-  <div class="btn-group" role="group">
-   <button type="submit" class="btn btn-primary" id="decryptbutton">Decrypt</button>
-  </div>
-  </div>
-           <br/><br/>
-    <input id="decryptedtext" name="decryptedtext" class="rounded" required="required" maxlength="255" placeholder=""style="width:480px;"/>
-  
-  </div>
+    
 </div>
 
-    </div>
+<div id="footer">
+	<div class="tri"></div>
+	<h1>Making an AJAX Web Chat With PHP and jQuery</h1>
     
+    <a class="tzine" href="http://tutorialzine.com/2010/10/ajax-web-chat-php-mysql/">Read &amp; Download on</a>
+</div>
 
-
-
-<!--  -->
-
-
-
-
-<!-- Button trigger modal -->
-<!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalNorm">
-    Launch Normal Form
-</button> -->
-
-<!-- Modal -->
-<div class="modal fade" id="AskKey" tabindex="-1" role="dialog" 
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Provide Key
-                </h4>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                
-                <form role="form">
-                  <div class="form-group">
-                      <input type="password" required="required" class="form-control"
-                          id="decryptkey" placeholder="Password"/>
-                  </div>
-                  <button type="button" id="ModalButton" class="btn btn-default">Decrypt</button>
-                </form>
-                
-                
-            </div>
-
-
-
-
-
-
-<script src ="https://code.jquery.com/jquery-1.12.1.min.js" type="text/javascript"></script>
-<!-- <script src="js/jquery.min.js"></script> -->
-
-<script src ="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="js/jScrollPane/jquery.mousewheel.js"></script>
 <script src="js/jScrollPane/jScrollPane.min.js"></script>
-<script src="js/bootbox.min.js"></script>
-<!-- <script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script> -->
- <script src="js/RSA.js"></script>
-
-    
-<script src="js/CryptoJs.js"></script>
-
-<script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.0.0-crypto-sha1.js"></script>
-<script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.0.0-hmac-min.js"></script>
-<!-- <script src="js/hmac.js"></script> -->
-
-<!-- <script src="js/sha256.js"></script> -->
-<script src="js/decrypt.js"></script>
-
 <script src="js/script.js"></script>
 </body>
 </html>

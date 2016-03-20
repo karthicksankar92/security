@@ -1,22 +1,7 @@
 $(document).ready(function(){
 	
-	$('body').on('change','[name=algorithm]',function()
-	{
-		var algo=$('#algorithm').val();
-		if(algo==2)
-		{
-			$('#key').hide();
-			$('#pubkey').show();
-		}
-		else
-		{
-			$('#key').show();
-			$('#pubkey').hide();
-		}
-	});
 	// Run the init method on document ready:
 	chat.init();
-
 	
 });
 
@@ -73,64 +58,11 @@ var chat = {
 		});
 		
 		// Submitting a new chat entry:
-		  
+		
 		$('#submitForm').submit(function(){
-
-
-			// $('#keyModal').modal('show');
-			var text = $('#chatText').val();
-			sendplaintext(text);
-			var key = '';
-			key = $('#key').val();
-			console.log(key.length);
-			var encrypted='';
-			var algo=$('#algorithm').val();
-			// $('#algorithm1').value=algo;
-			         document.getElementById('algorithm1').value = algo;
 			
-
-			if(algo==0)
-		   	{
-		   		bootbox.alert('Please provide encryption algorithm');
-
-		   	}
-		   	else
-		   	{
-		   		console.log('algo:'+algo);
-			switch(algo) {
-			    case '1':    //AES
-			        
-			         encrypted = CryptoJS.AES.encrypt(text, key);
-			         document.getElementById('ciphertext').value = encrypted;
-			         // ('#ciphertext').value=encrypted;
-			        
-			        break;
-			    case '2':   //RSA
-			        var pubkey = $('#pubkey').val();
-			         var encrypt = new JSEncrypt();
-                     encrypt.setPublicKey(pubkey);
-                     encrypted = encrypt.encrypt(text);
-			         document.getElementById('ciphertext').value = encrypted;
-
-                     console.log('encrypted:'+encrypted);
-			        break;
-			    case '3':   //Digital
-			        // key = $('#key').val();
-			        break;
-			    case '4':  //Hash
-			       // console.log('hash');
-			        // key = $('#key').val();
-			        encrypted = Crypto.HMAC(Crypto.SHA1, text, key);
-			        document.getElementById('ciphertext').value = encrypted;
-
-			        // console.log(encrypted);
-			        break;
-			 
-			    default:
-			        console.log(false);
-			}
-			console.log(encrypted);
-
+			var text = $('#chatText').val();
+			
 			if(text.length == 0){
 				return false;
 			}
@@ -144,8 +76,7 @@ var chat = {
 					id			: tempID,
 					author		: chat.data.name,
 					gravatar	: chat.data.gravatar,
-					text		: text.replace(/</g,'&lt;').replace(/>/g,'&gt;'),
-					ciphertext  : encrypted.toString()
+					text		: text.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 				};
 
 			// Using our addChatLine method to add the chat
@@ -155,10 +86,9 @@ var chat = {
 			chat.addChatLine($.extend({},params));
 			
 			// Using our tzPOST wrapper method to send the chat
-			// via a POST AJAX request:$data+"&validate_field="+validate_field
+			// via a POST AJAX request:
 			
-			$.tzPOST('submitChat',$(this).serialize()+"&ciphertext="+encrypted.toString(),function(r){
-				
+			$.tzPOST('submitChat',$(this).serialize(),function(r){
 				working = false;
 				
 				$('#chatText').val('');
@@ -167,13 +97,13 @@ var chat = {
 				params['id'] = r.insertID;
 				chat.addChatLine($.extend({},params));
 			});
-			}
+			
 			return false;
 		});
 		
 		// Logging the user out:
 		
-		$('.logoutButton').on('click','a',function(){
+		$('a.logoutButton').live('click',function(){
 			
 			$('#chatTopBar > span').fadeOut(function(){
 				$(this).remove();
@@ -227,7 +157,7 @@ var chat = {
 	// The render method generates the HTML markup 
 	// that is needed by the other methods:
 	
-	render : function(template,params,Plaintext){
+	render : function(template,params){
 		
 		var arr = [];
 		switch(template){
@@ -239,18 +169,12 @@ var chat = {
 			break;
 			
 			case 'chatLine':
-			// <span class="text">',params.text
 				arr = [
 					'<div class="chat chat-',params.id,' rounded"><span class="gravatar"><img src="',params.gravatar,
 					'" width="23" height="23" onload="this.style.visibility=\'visible\'" />','</span><span class="author">',params.author,
-					':</span><br/><span class="ciphertext" style="word-break:break-all;"><strong>CipherText:</strong>',params.ciphertext,'<br/><span class="text"><strong>PlainText:</strong>',params.text,'</span></span><span class="time">',params.time,'</span></div>'];
+					':</span><span class="text">',params.text,'</span><span class="time">',params.time,'</span></div>'];
 			break;
-			case 'chatLine2':
-				arr = [
-					'<div class="chat chat-',params.id,' rounded"><span class="gravatar"><img src="',params.gravatar,
-					'" width="23" height="23" onload="this.style.visibility=\'visible\'" />','</span><span class="author">',params.author,
-					':</span><br/><span class="ciphertext" style="word-break:break-all;">',params.ciphertext,'</span></span><span class="time">',params.time,'</span></div>'];
-			break;
+			
 			case 'user':
 				arr = [
 					'<div class="user" title="',params.name,'"><img src="',
@@ -268,7 +192,7 @@ var chat = {
 	
 	// The addChatLine method ads a chat entry to the page
 	
-	addChatLine : function(params,ajax_response,Plaintext){
+	addChatLine : function(params){
 		
 		// All times are displayed in the user's timezone
 		
@@ -284,12 +208,8 @@ var chat = {
 		
 		params.time = (d.getHours() < 10 ? '0' : '' ) + d.getHours()+':'+
 					  (d.getMinutes() < 10 ? '0':'') + d.getMinutes();
-		// console.log(params);
-		var markup = ajax_response==2?chat.render('chatLine',params,Plaintext):chat.render('chatLine2',params),
-		// var markup =chat.render('chatLine2',params);
-
-		// var markup1 =chat.render('chatLine',params);
-
+		
+		var markup = chat.render('chatLine',params),
 			exists = $('#chatLineHolder .chat-'+params.id);
 
 		if(exists.length){
@@ -304,7 +224,6 @@ var chat = {
 		}
 		
 		// If this isn't a temporary chat:
-		// console.log(params.id.toString().charAt(0));
 		if(params.id.toString().charAt(0) != 't'){
 			var previous = $('#chatLineHolder .chat-'+(+params.id - 1));
 			if(previous.length){
@@ -326,30 +245,10 @@ var chat = {
 	// (since lastID), and adds them to the page.
 	
 	getChats : function(callback){
-			
-
 		$.tzGET('getChats',{lastID: chat.data.lastID},function(r){
-			ajax_response=2;
-
-			var key = $('#key').val();
-			var algo=$('#algorithm').val();
-			// $('#AskKey').modal('show');
-			// bootbox.alert('true');
-			var decrypted=[];
-			var decryptedString=[];
-			var decryptkey='';
-			// if(key)
-			// {
+			
 			for(var i=0;i<r.chats.length;i++){
-				
-				console.log(r.chats[i]);
-
-				console.log(r.chats[i].ciphertext);
-
-                // decrypted[i] = CryptoJS.AES.decrypt(r.chats[i].ciphertext, decryptkey);
-				// console.log(decrypted[i].toString(CryptoJS.enc.Utf8));
-				 // decryptedString[i]=decrypted[i].toString(CryptoJS.enc.Utf8);
-				chat.addChatLine(r.chats[i],ajax_response);
+				chat.addChatLine(r.chats[i]);
 			}
 			
 			if(r.chats.length){
@@ -361,9 +260,8 @@ var chat = {
 				// the noActivity counter.
 				
 				chat.data.noActivity++;
-			
-	
 			}
+			
 			if(!chat.data.lastID){
 				chat.data.jspAPI.getContentPane().html('<p class="noChats">No chats yet</p>');
 			}
