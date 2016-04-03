@@ -13,6 +13,21 @@ $(document).ready(function(){
 			$('#key').show();
 			$('#pubkey').hide();
 		}
+		if(algo==3)
+		{
+			$('#hash_alg').show();
+			$('#sign_alg').show();
+			$('#key').hide();
+
+
+		}
+		else
+		{
+			$('#hash_alg').hide();
+			$('#sign_alg').hide();
+			// $('#key').show();
+			
+		}
 	});
 	// Run the init method on document ready:
 	chat.init();

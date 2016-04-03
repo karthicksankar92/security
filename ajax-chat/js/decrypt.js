@@ -40,8 +40,9 @@ $('#decryptbutton').click(function()
 			switch(algo) {
 				
 			    case '1':    //AES
-			          var decrypted = CryptoJS.AES.decrypt(ciphertext, decryptkey);
-		
+			          var decrypted = CryptoJS.AES.decrypt(ciphertext.toString(), decryptkey);
+			
+
 				 var decryptedString=decrypted.toString(CryptoJS.enc.Utf8);
 				 console.log(decryptedString);
 			         document.getElementById('decryptedtext').value = decryptedString;
@@ -51,8 +52,12 @@ $('#decryptbutton').click(function()
 			        break;
 			    case '2':   //RSA
 			        var privkey=$('#prikey').val();
+			   console.log('Private:'+privkey);
+
 			        var decrypt = new JSEncrypt();
          			 decrypt.setPrivateKey(privkey);
+			    console.log('ciphertext:'+ciphertext);
+
           			var uncrypted = decrypt.decrypt(ciphertext);
           			console.log('decrypted:'+uncrypted);
 			         document.getElementById('decryptedtext').value = uncrypted;
@@ -62,7 +67,7 @@ $('#decryptbutton').click(function()
 			    case '3':   //Digital
 			        
 
-			        // key = $('#key').val();
+			        // key = $('#key').val();''
 			        break;
 			    case '4':  //Hash
 			        

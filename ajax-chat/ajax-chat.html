@@ -41,14 +41,27 @@
                 <option value="4">Hash Function</option>
 
             </select>
+            <select id="hash_alg" name="hash_alg" style="color:black;display: none;">
+                <option value="alg_SHA1">SHA-1</option>
+                <option value="alg_SHA256">SHA-256</option>
+                <option value="alg_SHA384">SHA-384</option>
+                <option value="alg_SHA512">SHA-512</option>
+                
+
+            </select>
+            <select id="sign_alg" name="sign_alg" style="color:black;display: none;">
+                <option value="alg_RSA15">RSASSA-PKCS1-V1_5</option>
+                <option value="alg_RSA2">RSA-PSS</option>
+                <option value="alg_ECDSA">ECDSA</option>
+            
+                
+
+            </select>
             <input type="password" id="key" class="rouded"  placeholder="Provide Key"/>
             <!-- <input type="submit" class="blueButton" value="Submit" target="keyModal" /> -->
             <textarea id="pubkey" rows="15" cols="65" style="color:black;display:none"></textarea>
            <button type="submit" class="btn btn-primary" value="Submit" >Submit</button>
-          <a href="digi.html" target="_blank">digi</a>
-          <a href="cert.html" target="_blank">certi</a>
-
-    <!-- <button type="submit" class="btn btn-primary" value="Submit" data-toggle="modal" data-target="#keyModal" >Provide Key</button> -->
+    
 
 
         </form>
@@ -87,51 +100,6 @@
 </div>
 
     </div>
-    
-
-
-
-<!--  -->
-
-
-
-
-<!-- Button trigger modal -->
-<!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalNorm">
-    Launch Normal Form
-</button> -->
-
-<!-- Modal -->
-<div class="modal fade" id="AskKey" tabindex="-1" role="dialog" 
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Provide Key
-                </h4>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                
-                <form role="form">
-                  <div class="form-group">
-                      <input type="password" required="required" class="form-control"
-                          id="decryptkey" placeholder="Password"/>
-                  </div>
-                  <button type="button" id="ModalButton" class="btn btn-default">Decrypt</button>
-                </form>
-                
-                
-            </div>
-
 
 
 
@@ -146,7 +114,7 @@
 <script src="js/bootbox.min.js"></script>
 <!-- <script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script> -->
  <script src="js/RSA.js"></script>
-
+<script src="js/digitalSignature.js"></script>
     
 <script src="js/CryptoJs.js"></script>
 
@@ -155,8 +123,9 @@
 <!-- <script src="js/hmac.js"></script> -->
 
 <!-- <script src="js/sha256.js"></script> -->
-<script src="js/decrypt.js"></script>
+
 
 <script src="js/script.js"></script>
+<script src="js/decrypt.js"></script>
 </body>
 </html>
