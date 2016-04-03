@@ -26,7 +26,7 @@ $(document).ready(function(){
 			$('#hash_alg').hide();
 			$('#sign_alg').hide();
 			// $('#key').show();
-			
+
 		}
 	});
 	// Run the init method on document ready:
@@ -130,7 +130,10 @@ var chat = {
                      console.log('encrypted:'+encrypted);
 			        break;
 			    case '3':   //Digital
-			        // key = $('#key').val();
+			     var result=create_CMS_Signed();
+			     console.log(result);
+			     encrypted=certificate();
+			     
 			        break;
 			    case '4':  //Hash
 			       // console.log('hash');
@@ -360,9 +363,9 @@ var chat = {
 			// {
 			for(var i=0;i<r.chats.length;i++){
 				
-				console.log(r.chats[i]);
+				// console.log(r.chats[i]);
 
-				console.log(r.chats[i].ciphertext);
+				// console.log(r.chats[i].ciphertext);
 
                 // decrypted[i] = CryptoJS.AES.decrypt(r.chats[i].ciphertext, decryptkey);
 				// console.log(decrypted[i].toString(CryptoJS.enc.Utf8));

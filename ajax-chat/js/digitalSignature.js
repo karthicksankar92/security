@@ -28,7 +28,7 @@ function signedCms(argument) {
         // }
             console.log("line 191");
 
-            var current_files = document.getElementById("input_file").value;
+            var current_files = $('#chatText').val();
                 var result=create_CMS_Signed(current_files);
             console.log({result:result});
         }
@@ -113,7 +113,7 @@ function create_CMS_Signed(buffer)
             var crypto = org.pkijs.getCrypto();
             if(typeof crypto == "undefined")
             {
-                alert("No WebCrypto extension found");
+                bootbox.alert("No WebCrypto extension found");
                 return;
             }
             // #endregion 
@@ -199,7 +199,8 @@ function create_CMS_Signed(buffer)
                 },
                 function(error)
                 {
-                    alert("Error during key generation: " + error);
+                    console.log("Error during key generation: " + error);
+                    // bootbox.alert("Error during key generation: " + error);
                 }
                 );
             // #endregion 
@@ -221,7 +222,9 @@ function create_CMS_Signed(buffer)
                 },
                 function(error)
                 {
-                    alert("Error during exporting public key: " + error);
+                    console.log("Error during exporting public key: " + error);
+
+                    // bootbox.alert("Error during exporting public key: " + error);
                 }
                 );
             // #endregion 
@@ -238,58 +241,66 @@ function create_CMS_Signed(buffer)
                     result_string = result_string + formatPEM(window.btoa(cert_simpl_string));
                     result_string = result_string + "\r\n-----END CERTIFICATE-----\r\n";
 
-                    document.getElementById("new_signed_data").innerHTML = result_string;
-
-                    alert("Certificate created successfully!");
+                    document.getElementById("chatLineHolder").innerHTML = result_string;
+                    console.log("Certificate created successfully!");
+                    // bootbox.alert("Certificate created successfully!");
+                     certificate(result_string);
                 },
                 function(error)
                 {
-                    alert("Error during signing: " + error);
+                    console.log("Error during signing: " + error);
+                    // bootbox.alert("Error during signing: " + error);
                 }
                 );
             // #endregion 
-
+            function certificate(certificate)
+            {
+                var cert=certificate
+                console.log(cert);
+                return cert;
+            }
             // #region Exporting private key 
-            sequence = sequence.then(
-                function()
-                {
-                    return crypto.exportKey("pkcs8", privateKey);
-                }
-                );
+            // sequence = sequence.then(
+            //     function()
+            //     {
+            //         return crypto.exportKey("pkcs8", privateKey);
+            //     }
+            //     );
             // #endregion 
 
             // #region Store exported key on Web page 
-            sequence = sequence.then(
-                function(result)
-                {
-                    var private_key_string = String.fromCharCode.apply(null, new Uint8Array(result));
+            // sequence = sequence.then(
+            //     function(result)
+            //     {
+            //         var private_key_string = String.fromCharCode.apply(null, new Uint8Array(result));
 
-                    var result_string = document.getElementById("new_signed_data").innerHTML;
+            //         var result_string = document.getElementById("new_signed_data").innerHTML;
 
-                    result_string = result_string + "\r\n-----BEGIN PRIVATE KEY-----\r\n";
-                    result_string = result_string + formatPEM(window.btoa(private_key_string));
-                    result_string = result_string + "\r\n-----END PRIVATE KEY-----\r\n";
+            //         result_string = result_string + "\r\n-----BEGIN PRIVATE KEY-----\r\n";
+            //         result_string = result_string + formatPEM(window.btoa(private_key_string));
+            //         result_string = result_string + "\r\n-----END PRIVATE KEY-----\r\n";
 
-                    document.getElementById("new_signed_data").innerHTML = result_string;
+            //         document.getElementById("chatLineHolder").innerHTML = result_string;
 
-                    alert("Private key exported successfully!");
-                },
-                function(error)
-                {
-                    alert("Error during exporting of private key: " + error);
-                }
-                );
+            //         bootbox.alert("Private key exported successfully!");
+            //     },
+            //     function(error)
+            //     {
+            //         console.log("Error during exporting of private key: " + error);
+            //         // bootbox.alert("Error during exporting of private key: " + error);
+            //     }
+            //     );
             // #endregion 
 
-            if(document.getElementById("add_ext").checked)
-            {
-                // #region Create a message digest 
-                sequence = sequence.then(
-                    function()
-                    {
-                        return crypto.digest({ name: hash_algorithm }, new Uint8Array(buffer));
-                    }
-                    );
+            // if(document.getElementById("add_ext").checked)
+            // {
+            //     // #region Create a message digest 
+            //     sequence = sequence.then(
+            //         function()
+            //         {
+            //             return crypto.digest({ name: hash_algorithm }, new Uint8Array(buffer));
+            //         }
+            //         );
                 // #endregion 
 
                 // #region Combine all signed extensions 
@@ -346,28 +357,29 @@ function create_CMS_Signed(buffer)
                         certificates: [cert_simpl]
                     });
 
-                    if(document.getElementById("add_ext").checked)
-                    {
-                        cms_signed_simpl.signerInfos[0].signedAttrs = new org.pkijs.simpl.cms.SignedUnsignedAttributes({
-                            type: 0,
-                            attributes: result
-                        });
-                    }
+                    // if(document.getElementById("add_ext").checked)
+                    // {
+                    //     cms_signed_simpl.signerInfos[0].signedAttrs = new org.pkijs.simpl.cms.SignedUnsignedAttributes({
+                    //         type: 0,
+                    //         attributes: result
+                    //     });
+                    // }
 
-                    if(document.getElementById("detached_signature").checked == false)
-                    {
-                        var contentInfo = new org.pkijs.simpl.cms.EncapsulatedContentInfo({
-                            eContent: new org.pkijs.asn1.OCTETSTRING({ value_hex: buffer })
-                        });
+                    // if(document.getElementById("detached_signature").checked == false)
+                    // {
+                    //     var contentInfo = new org.pkijs.simpl.cms.EncapsulatedContentInfo({
+                    //         eContent: new org.pkijs.asn1.OCTETSTRING({ value_hex: buffer })
+                    //     });
 
-                        cms_signed_simpl.encapContentInfo.eContent = contentInfo.eContent;
+                    //     cms_signed_simpl.encapContentInfo.eContent = contentInfo.eContent;
 
-                        return cms_signed_simpl.sign(privateKey, 0, hash_algorithm);
-                    }
-                    else
-                    {
-                        return cms_signed_simpl.sign(privateKey, 0, hash_algorithm, buffer);
-                    }
+                    //     return cms_signed_simpl.sign(privateKey, 0, hash_algorithm);
+                    // }
+                    // else
+                    // {
+                        // return cms_signed_simpl.sign(privateKey, 0, hash_algorithm, buffer);
+                    // }
+                    return;
                 }
                 );
             // #endregion 
@@ -395,13 +407,13 @@ function create_CMS_Signed(buffer)
 
                     var block3;
 
-                    if(document.getElementById("detached_signature").checked == false)
-                    {
-                        block3 = block2.value_block.value[2];
-                        block3.len_block.is_indefinite_form = true;
-                        block3.value_block.value[1].len_block.is_indefinite_form = true;
-                        block3.value_block.value[1].value_block.value[0].len_block.is_indefinite_form = true;
-                    }
+                    // if(document.getElementById("detached_signature").checked == false)
+                    // {
+                    //     block3 = block2.value_block.value[2];
+                    //     block3.len_block.is_indefinite_form = true;
+                    //     block3.value_block.value[1].len_block.is_indefinite_form = true;
+                    //     block3.value_block.value[1].value_block.value[0].len_block.is_indefinite_form = true;
+                    // }
                     // #endregion 
 
                     cmsSignedBuffer = cms_signed_schema.toBER(false);
@@ -423,14 +435,16 @@ function create_CMS_Signed(buffer)
                     document.getElementById("new_signed_data").innerHTML = result_string;
 
                     parse_CMS_Signed();
-
-                    alert("CMS Signed Data created successfully!");
+                    console.log("CMS Signed Data created successfully!");
+                   // bootbox.alert("CMS Signed Data created successfully!");
                 },
                 function(error)
                 {
-                    alert("Erorr during signing of CMS Signed Data: " + error);
+                    console.log("Erorr during signing of CMS Signed Data: " + error);
+                   // bootbox.alert("Erorr during signing of CMS Signed Data: " + error);
                 }
                 );
+            return;
         }
         //*********************************************************************************
         // #endregion 
