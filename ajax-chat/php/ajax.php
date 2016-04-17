@@ -54,7 +54,7 @@ try{
 		break;
 		
 		case 'submitChat':
-			$response = Chat::submitChat($_POST['chatText'],$_POST['ciphertext']);
+			$response = Chat::submitChat($_POST['chatText'],$_POST['ciphertext'],$_POST['sendto']);
 		break;
 		
 		case 'getUsers':

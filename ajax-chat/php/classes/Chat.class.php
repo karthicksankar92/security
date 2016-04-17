@@ -18,7 +18,8 @@ class Chat{
 		
 		$user = new ChatUser(array(
 			'name'		=> $name,
-			'gravatar'	=> $gravatar
+			'gravatar'	=> $gravatar,
+			'email'		=>$email
 		));
 		
 		// The save method returns a MySQLi object
@@ -28,7 +29,8 @@ class Chat{
 		
 		$_SESSION['user']	= array(
 			'name'		=> $name,
-			'gravatar'	=> $gravatar
+			'gravatar'	=> $gravatar,
+			'email'     => $email
 		);
 		
 		return array(
@@ -61,7 +63,7 @@ class Chat{
 		return array('status' => 1);
 	}
 	
-	public static function submitChat($chatText,$ciphertext){
+	public static function submitChat($chatText,$ciphertext,$sendto){
 		if(!$_SESSION['user']){
 			throw new Exception('You are not logged in');
 		}
@@ -74,7 +76,8 @@ class Chat{
 			'author'	=> $_SESSION['user']['name'],
 			'gravatar'	=> $_SESSION['user']['gravatar'],
 			'text'		=> $chatText,
-			'ciphertext'=> $ciphertext
+			'ciphertext'=> $ciphertext,
+			'sendto'    => $sendto 
 		));
 			
 			
@@ -103,6 +106,7 @@ class Chat{
 		$users = array();
 		while($user = $result->fetch_object()){
 			$user->gravatar = Chat::gravatarFromHash($user->gravatar,30);
+			$user->email=$user->email;
 			$users[] = $user;
 		}
 	
@@ -129,6 +133,8 @@ class Chat{
 			
 			$chat->gravatar = Chat::gravatarFromHash($chat->gravatar);
 			$chat->ciphertext=$chat->ciphertext;
+			$chat->sendto=$chat->sendto;
+
 			$chats[] = $chat;
 		}
 	

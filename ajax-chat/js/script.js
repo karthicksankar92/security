@@ -3,31 +3,58 @@ $(document).ready(function(){
 	$('body').on('change','[name=algorithm]',function()
 	{
 		var algo=$('#algorithm').val();
-		if(algo==2)
+		if(algo==1 || algo==4 || algo==5)
 		{
-			$('#key').hide();
-			$('#pubkey').show();
+			$('#key').show();
+			
+			
 		}
 		else
 		{
-			$('#key').show();
+			$('#key').hide();
+			
+			
+		}
+		if(algo==2 || algo==3)
+		{
+			$('#pubkey').show();
+
+		}
+		else
+		{
 			$('#pubkey').hide();
+
 		}
 		if(algo==3)
 		{
-			$('#hash_alg').show();
-			$('#sign_alg').show();
-			$('#key').hide();
-
-
+			// $('#pubkey').show();
+			$('#hashalg').show();
 		}
 		else
-		{
-			$('#hash_alg').hide();
-			$('#sign_alg').hide();
-			// $('#key').show();
+		{	
+			$('#hashalg').hide();
+			// $('#pubkey').hide();
+			
+
 
 		}
+		if(algo==6)
+		{
+			$('#p').show();
+			$('#q').show();
+			$('#key_d').show();
+			$('#key_n').show();
+
+		}
+	    else
+	    {
+	    	$('#p').hide();
+			$('#q').hide();
+			$('#key_d').hide();
+			$('#key_n').hide();
+			
+
+	    }
 	});
 	// Run the init method on document ready:
 	chat.init();
@@ -94,14 +121,15 @@ var chat = {
 
 			// $('#keyModal').modal('show');
 			var text = $('#chatText').val();
-			sendplaintext(text);
+			// sendplaintext(text);
 			var key = '';
 			key = $('#key').val();
 			console.log(key.length);
 			var encrypted='';
 			var algo=$('#algorithm').val();
+			var SendTo=$('#SendTo').val();
 			// $('#algorithm1').value=algo;
-			         document.getElementById('algorithm1').value = algo;
+			         // document.getElementById('algorithm1').value = algo;
 			
 
 			if(algo==0)
@@ -116,8 +144,9 @@ var chat = {
 			    case '1':    //AES
 			        
 			         encrypted = CryptoJS.AES.encrypt(text, key);
-			         document.getElementById('ciphertext').value = encrypted;
-			         // ('#ciphertext').value=encrypted;
+			            
+			        // document.getElementById('compose-subject').value = "AES key";
+			        
 			        
 			        break;
 			    case '2':   //RSA
@@ -125,29 +154,28 @@ var chat = {
 			         var encrypt = new JSEncrypt();
                      encrypt.setPublicKey(pubkey);
                      encrypted = encrypt.encrypt(text);
-			         document.getElementById('ciphertext').value = encrypted;
-
-                     console.log('encrypted:'+encrypted);
+			         
 			        break;
 			    case '3':   //Digital
-			     var result=create_CMS_Signed();
-			     console.log(result);
-			     encrypted=certificate();
-			     
+			     encrypted=doSign();
 			        break;
 			    case '4':  //Hash
-			       // console.log('hash');
-			        // key = $('#key').val();
-			        encrypted = Crypto.HMAC(Crypto.SHA1, text, key);
-			        document.getElementById('ciphertext').value = encrypted;
-
-			        // console.log(encrypted);
+			        var hash = CryptoJS.HmacSHA256(text, key);
+			        console.log("hashing"+hash);
+  					 encrypted = CryptoJS.enc.Base64.stringify(hash);
+			        
 			        break;
-			 
+			 	case '5':
+			 	      encrypted=AESEncryptCtr(text, key,256);
+			 		break;
+			 	case '6':
+			 	       encrypted=RSAEncrypt();
+			 	break
 			    default:
 			        console.log(false);
 			}
-			console.log(encrypted);
+			document.getElementById('ciphertext').value = encrypted;
+			console.log("encrypted"+encrypted);
 
 			if(text.length == 0){
 				return false;
@@ -163,6 +191,7 @@ var chat = {
 					author		: chat.data.name,
 					gravatar	: chat.data.gravatar,
 					text		: text.replace(/</g,'&lt;').replace(/>/g,'&gt;'),
+					sendto      : SendTo,
 					ciphertext  : encrypted.toString()
 				};
 
@@ -175,7 +204,7 @@ var chat = {
 			// Using our tzPOST wrapper method to send the chat
 			// via a POST AJAX request:$data+"&validate_field="+validate_field
 			
-			$.tzPOST('submitChat',$(this).serialize()+"&ciphertext="+encrypted.toString(),function(r){
+			$.tzPOST('submitChat',$(this).serialize()+"&ciphertext="+encrypted.toString()+"&sendto="+SendTo,function(r){
 				
 				working = false;
 				
@@ -249,6 +278,7 @@ var chat = {
 	// that is needed by the other methods:
 	
 	render : function(template,params,Plaintext){
+		var algo=$('#algorithm').val();
 		
 		var arr = [];
 		switch(template){
@@ -264,17 +294,17 @@ var chat = {
 				arr = [
 					'<div class="chat chat-',params.id,' rounded"><span class="gravatar"><img src="',params.gravatar,
 					'" width="23" height="23" onload="this.style.visibility=\'visible\'" />','</span><span class="author">',params.author,
-					':</span><br/><span class="ciphertext" style="word-break:break-all;"><strong>CipherText:</strong>',params.ciphertext,'<br/><span class="text"><strong>PlainText:</strong>',params.text,'</span></span><span class="time">',params.time,'</span></div>'];
+					':</span><br/><span class"sendTo"><strong>To:</strong>',params.sendto,'</span><br/><span class="ciphertext" style="word-break:break-all;"><strong>CipherText:</strong>',algo==1?params.ciphertext.replace(/ /g,'+'):params.ciphertext,'<br/></span><span class="time">',params.time,'</span></div>'];
 			break;
 			case 'chatLine2':
 				arr = [
 					'<div class="chat chat-',params.id,' rounded"><span class="gravatar"><img src="',params.gravatar,
 					'" width="23" height="23" onload="this.style.visibility=\'visible\'" />','</span><span class="author">',params.author,
-					':</span><br/><span class="ciphertext" style="word-break:break-all;">',params.ciphertext,'</span></span><span class="time">',params.time,'</span></div>'];
+					':</span><br/><span class"sendTo"><strong>To:</strong>',params.sendto,'</span><br/><span class="ciphertext" style="word-break:break-all;">',params.ciphertext,'</span></span><span class="time">',params.time,'</span></div>'];
 			break;
 			case 'user':
 				arr = [
-					'<div class="user" title="',params.name,'"><img src="',
+					'<div class="user" title="',params.name +','+params.email,'"><span class="gravatar"><img src="',
 					params.gravatar,'" width="30" height="30" onload="this.style.visibility=\'visible\'" /></div>'
 				];
 			break;
@@ -351,25 +381,7 @@ var chat = {
 
 		$.tzGET('getChats',{lastID: chat.data.lastID},function(r){
 			ajax_response=2;
-
-			var key = $('#key').val();
-			var algo=$('#algorithm').val();
-			// $('#AskKey').modal('show');
-			// bootbox.alert('true');
-			var decrypted=[];
-			var decryptedString=[];
-			var decryptkey='';
-			// if(key)
-			// {
 			for(var i=0;i<r.chats.length;i++){
-				
-				// console.log(r.chats[i]);
-
-				// console.log(r.chats[i].ciphertext);
-
-                // decrypted[i] = CryptoJS.AES.decrypt(r.chats[i].ciphertext, decryptkey);
-				// console.log(decrypted[i].toString(CryptoJS.enc.Utf8));
-				 // decryptedString[i]=decrypted[i].toString(CryptoJS.enc.Utf8);
 				chat.addChatLine(r.chats[i],ajax_response);
 			}
 			
@@ -418,20 +430,23 @@ var chat = {
 		$.tzGET('getUsers',function(r){
 			
 			var users = [];
-			
+			var selection;
 			for(var i=0; i< r.users.length;i++){
 				if(r.users[i]){
 					users.push(chat.render('user',r.users[i]));
+			       selection=$('#compose-to').append('<option>' + r.users[i].email + '</option>');
+			       console.log(r.users[i].email);
 				}
+	       
+
 			}
-			
 			var message = '';
 			
 			if(r.total<1){
 				message = 'No one is online';
 			}
 			else {
-				message = r.total+' '+(r.total == 1 ? 'person':'people')+' online';
+				message = '\n'+r.total+' '+(r.total == 1 ? 'person':'people')+' online';
 			}
 			
 			users.push('<p class="count">'+message+'</p>');
