@@ -3,9 +3,9 @@ $('#compose-button').click(function (){
 var algo=$('#algorithm').val();
 var key = $('#key').val();
 var text = $('#chatText').val();
+var publickey=$('#pubkey').val();
 var RSApublicKey= $('#key_d').val();
 var RSAprivateKey=$('#key_n').val();
-// var message="Hi I am sharing my AES Encryption key: "+ key +"here. Use this to decrypt the Ciphertext";
 switch(algo) {
 			    case '1':    //AES
 			        
@@ -16,8 +16,8 @@ switch(algo) {
 			        
 			        break;
 			    case '2':   //RSA
-	         document.getElementById('compose-subject').value = "RSA key";
-	         document.getElementById('compose-message').value = "Hi, I am sharing my RSA Public key here. Use this key to decrypt the Ciphertext";
+	         document.getElementById('compose-subject').value = "Your RSA Public key";
+	         document.getElementById('compose-message').value = "Hi, I have used your RSA Public key to encrypt the text. Use your private key to decrypt the Ciphertext.\nYour Public key: "+publickey;
 			 
 			        break;
 			    case '3':   //Digital

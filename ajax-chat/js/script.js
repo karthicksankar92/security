@@ -294,7 +294,7 @@ var chat = {
 				arr = [
 					'<div class="chat chat-',params.id,' rounded"><span class="gravatar"><img src="',params.gravatar,
 					'" width="23" height="23" onload="this.style.visibility=\'visible\'" />','</span><span class="author">',params.author,
-					':</span><br/><span class"sendTo"><strong>To:</strong>',params.sendto,'</span><br/><span class="ciphertext" style="word-break:break-all;"><strong>CipherText:</strong>',algo==1?params.ciphertext.replace(/ /g,'+'):params.ciphertext,'<br/></span><span class="time">',params.time,'</span></div>'];
+					':</span><br/><span class"sendTo"><strong>To:</strong>',params.sendto,'</span><br/><span class="ciphertext" style="word-break:break-all;"><strong>CipherText:</strong>',(algo==1 || algo==2)?params.ciphertext.replace(/ /g,'+'):params.ciphertext,'<br/></span><span class="time">',params.time,'</span></div>'];
 			break;
 			case 'chatLine2':
 				arr = [
