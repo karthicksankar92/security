@@ -11,7 +11,7 @@ switch(algo) {
 			        
 			            
 	         document.getElementById('compose-subject').value = "AES key";
-	         document.getElementById('compose-message').value = "Hi, I am sharing my AES Encryption key: "+ key +" here. Use this key to decrypt the Ciphertext";
+	         document.getElementById('compose-message').value = "Hi, I am sharing my AES Encryption key here. Use this key to decrypt the Ciphertext.\nKey: "+key;
 			        
 			        
 			        break;
@@ -22,7 +22,7 @@ switch(algo) {
 			        break;
 			    case '3':   //Digital
 	         document.getElementById('compose-subject').value = "Digital Signature Information";
-	         document.getElementById('compose-message').value = "Hi, I am sharing my Digital Signature Public key Certificate here and text I have send you. Please verify that the text you recieved was original.\nPlain Text: "+ text +"\nPublic Key: ";
+	         document.getElementById('compose-message').value = "Hi, I am sharing my Digital Signature Public key Certificate here and text I have send you. Please verify that the text you received was original.\nPlain Text: "+ text +"\nPublic Key: ";
 			    
 			        break;
 			    case '4':  //Hash
@@ -38,11 +38,11 @@ switch(algo) {
 			 		break;
 			 	case '6':
 	         document.getElementById('compose-subject').value = "RSA Builtin Key";
-	         document.getElementById('compose-message').value = "Hi, I am sharing my RSA own implementation key here. Use this key to decrypt the Ciphertext\nPublic key: "+ RSApublicKey+"\nPrivate key: "+RSAprivateKey;
+	         document.getElementById('compose-message').value = "Hi, I am sharing my RSA own implementation key here. Use this key to decrypt the Ciphertext\nExponent: "+ RSApublicKey+"\nModulo key: "+RSAprivateKey;
 
 			 	break
 			    default:
-	         document.getElementById('compose-subject').value = "Share your Public Key";
+	         document.getElementById('compose-subject').value = "Share your RSA Public Key";
 	         document.getElementById('compose-message').value = "Hi, I would like to chat with you. Please share your Public Key to start the communication. ";
 
 			        console.log(false);

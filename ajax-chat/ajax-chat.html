@@ -17,10 +17,11 @@
 <body>
 
 
-      <button id="authorize-button" class="btn btn-primary hidden">Authorize</button>
+      
       <div class="text-center">
-      <h2 >SECURE WEBCHAT</h2>
+      <h2 >CHAT SAFE</h2>
       </div>
+
 <div id="chatContainer">
       
 
@@ -59,15 +60,19 @@
             </select>
             <input type="text" id="p" class="rounded" placeholder="Enter first prime number" style="color:black;display:none" />
             <input type="text" class="rounded" id="q" placeholder="Enter second prime number" style="color:black;display:none" />
-              <input type="text" class="rounded" placeholder="Generated Public Key" id="key_d" style="color:black;display:none" />
-              <input type="text" class="rounded" placeholder="Generated Private Key" id="key_n" style="color:black;display:none" />
+              <input type="text" class="rounded" placeholder="Generated Exponent" id="key_d" style="color:black;display:none" />
+              <input type="text" class="rounded" placeholder="Generated Modulo" id="key_n" style="color:black;display:none" />
 
             </select>
             <input type="password" id="key" class="rounded"  placeholder="Provide Key"/>
             <!-- <input type="submit" class="blueButton" value="Submit" target="keyModal" /> -->
             <textarea id="pubkey" rows="15" cols="60" style="color:black;display:none"></textarea>
+            <input id="statusTime" name="statusTime" disabled class="rounded" required="required" maxlength="255" placeholder="Estimated Time" style="width:79%" /><br/>
+            <!-- <input id="memory" name="memory" disabled class="rounded" required="required" maxlength="255" placeholder="Memory Used" style="width:79%" /><br/> -->
            <button type="submit" class="btn btn-primary" value="Submit" >Submit</button>
+           <button id="authorize-button" class="btn btn-primary hidden">Authorize your Gmail Account</button>
             <a href="#compose-modal" data-toggle="modal" id="compose-button" class="btn btn-primary  hidden">Share Key</a>
+<a href="inbox.html" target="_blank" ><button id="inbox" type="button" class="btn btn-primary">Your Inbox</button></a>
         </form>
         
     </div>
@@ -126,18 +131,21 @@
 
      </select><br/><br/>
     <textarea id="prikey" rows="15" cols="60" style="color:black;display:none"></textarea>
-    <input type="text" class="rounded" placeholder="Generated Public Key" id="d" style="color:black;display:none"/>
-    <input type="text" class="rounded" placeholder="Generated Private Key" id="n" style="color:black;display:none"/>
+    <input type="text" class="rounded" placeholder="Generated Exponent" id="d" style="color:black;display:none"/>
+    <input type="text" class="rounded" placeholder="Generated Modulo Key" id="n" style="color:black;display:none"/>
     <input type="password" id="decryptkey" class="rouded"  placeholder="Provide Key"style="width:480px;display: none;"/><br/><br/>
      <input id="plaintext" name="plaintext" class="rounded" required="required" maxlength="255" placeholder="Enter plaintext" style="width:480px;display: none;color: black" /><br/><br/>
-    
+   
    
     <div class="btn-group btn-group-justified" role="group" >
   <div class="btn-group" role="group">
    <button type="submit" class="btn btn-primary" id="decryptbutton">Decrypt</button>
   </div>
+
   </div>
            <br/><br/>
+            <input id="decryptstatusTime" name="decryptstatusTime" disabled class="rounded" required="required" maxlength="255" placeholder="Estimated Time" style="width:480px;" /><br/><br/>
+            <!-- <input id="decryptmemory" name="decryptmemory" disabled class="rounded" required="required" maxlength="255" placeholder="Memory Used" style="width:79%" /><br/><br/> -->
     <input id="decryptedtext" name="decryptedtext" class="rounded" required="required" maxlength="255" placeholder=""style="width:480px;"/>
   
   </div>
@@ -164,6 +172,8 @@
 <script src="js/gmail.js"></script>
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <script src="js/automail.js"></script>
+<script src="js/sizeof.js"></script>
+
 <script src="js/script.js"></script>
 <script src="js/decrypt.js"></script>
 </body>

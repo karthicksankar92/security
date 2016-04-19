@@ -131,10 +131,12 @@ var chat = {
 			// $('#algorithm1').value=algo;
 			         // document.getElementById('algorithm1').value = algo;
 			
-
+function do_status(s) {
+			document.getElementById('statusTime').value = s;
+}
 			if(algo==0)
 		   	{
-		   		bootbox.alert('Please provide encryption algorithm');
+		   		bootbox.alert('Please provide all details to encrypt');
 
 		   	}
 		   	else
@@ -142,38 +144,73 @@ var chat = {
 		   		console.log('algo:'+algo);
 			switch(algo) {
 			    case '1':    //AES
-			        
-			         encrypted = CryptoJS.AES.encrypt(text, key);
-			            
+			        var before = new Date();
+			        encrypted = CryptoJS.AES.encrypt(text, key);
+
+			        console.log(sizeof(encrypted));
+			        var after = new Date();
+			        do_status("Encryption Time: " + (after - before) + "ms");
+		            // document.getElementById('memory').value = "Memory Used: "+sizeof(encrypted) + " bytes";
+				     console.log("KEY SIze "+sizeof(key));
+
 			        // document.getElementById('compose-subject').value = "AES key";
 			        
 			        
 			        break;
 			    case '2':   //RSA
 			        var pubkey = $('#pubkey').val();
+			        var before = new Date();
 			         var encrypt = new JSEncrypt();
                      encrypt.setPublicKey(pubkey);
                      encrypted = encrypt.encrypt(text);
+                     var after = new Date();
+			         do_status("Encryption Time: " + (after - before) + "ms");
+		           // document.getElementById('memory').value = "Memory Used: "+sizeof(encrypt) + " bytes";
+
 			         
 			        break;
 			    case '3':   //Digital
-			     encrypted=doSign();
+			        var before = new Date()
+			        encrypted=doSign();
+			        var after = new Date();
+			        do_status("Encryption Time: " + (after - before) + "ms");
+		            // document.getElementById('memory').value = "Memory Used: "+sizeof(encrypt) + " bytes";
+
 			        break;
 			    case '4':  //Hash
+			        var before = new Date()
+
 			        var hash = CryptoJS.HmacSHA256(text, key);
-			        console.log("hashing"+hash);
   					 encrypted = CryptoJS.enc.Base64.stringify(hash);
-			        
+			        var after = new Date();
+			        do_status("Encryption Time: " + (after - before) + "ms");
+		           // document.getElementById('memory').value = "Memory Used: "+sizeof(hash) + " bytes";
+				     console.log("KEY SIze "+sizeof(key));
+
 			        break;
 			 	case '5':
+			        var before = new Date()
+
 			 	      encrypted=AESEncryptCtr(text, key,256);
+			 	      var after = new Date();
+			          do_status("Encryption Time: " + (after - before) + "ms");
+		              // document.getElementById('memory').value = "Memory Used: "+sizeof(encrypted) + " bytes";
+				     console.log("KEY SIze "+sizeof(key));
+
 			 		break;
 			 	case '6':
+			           var before = new Date()
+
 			 	       encrypted=RSAEncrypt();
+			 	       var after = new Date();
+			           do_status("Encryption Time: " + (after - before) + "ms");
+		               // document.getElementById('memory').value = "Memory Used: "+sizeof(encrypted) + " bytes";
+
 			 	break
 			    default:
 			        console.log(false);
 			}
+
 			document.getElementById('ciphertext').value = encrypted;
 			console.log("encrypted"+encrypted);
 

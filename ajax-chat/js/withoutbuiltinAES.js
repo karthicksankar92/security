@@ -13,10 +13,9 @@
  *   returns byte-array encrypted value (16 bytes)
  */
 function Cipher(input, w) {    // main Cipher function [Â§5.1]
-  console.log("line 16");
   var Nb = 4;               // block size (in words): no of columns in state (fixed at 4 for AES)
   var Nr = w.length/Nb - 1; // no of rounds: 10/12/14 for 128/192/256-bit keys
-  console.log("NB and Nr values"+Nb);
+ 
 
   var state = [[],[],[],[]];  // initialise 4xNb byte-array 'state' with input [Â§3.4]
   for (var i=0; i<4*Nb; i++) state[i%4][Math.floor(i/4)] = input[i];
@@ -41,7 +40,7 @@ function Cipher(input, w) {    // main Cipher function [Â§5.1]
 
 
 function SubBytes(s, Nb) {    // apply SBox to state S [Â§5.1.1]
-  console.log("line 44");
+  
   
   for (var r=0; r<4; r++) {
     for (var c=0; c<Nb; c++) s[r][c] = Sbox[s[r][c]];
@@ -53,7 +52,7 @@ function SubBytes(s, Nb) {    // apply SBox to state S [Â§5.1.1]
 function ShiftRows(s, Nb) {    // shift row r of state S left by r bytes [Â§5.1.2]
   var t = new Array(4);
   for (var r=1; r<4; r++) {
-  console.log("line 56");
+  
     for (var c=0; c<4; c++) t[c] = s[r][(c+r)%Nb];  // shift into temp copy
     for (var c=0; c<4; c++) s[r][c] = t[c];         // and copy back
   }          // note that this will work for Nb=4,5,6, but not 7,8 (always 4 for AES):
@@ -63,7 +62,7 @@ function ShiftRows(s, Nb) {    // shift row r of state S left by r bytes [Â§5.
 
 function MixColumns(s, Nb) {   // combine bytes of each col of state S [Â§5.1.3]
   for (var c=0; c<4; c++) {
-  console.log("line 66");
+
     var a = new Array(4);  // 'a' is a copy of the current column from 's'
     var b = new Array(4);  // 'b' is aâ€¢{02} in GF(2^8)
     for (var i=0; i<4; i++) {
@@ -82,11 +81,11 @@ function MixColumns(s, Nb) {   // combine bytes of each col of state S [Â§5.1.
 
 function AddRoundKey(state, w, rnd, Nb) {  // xor Round Key into state S [Â§5.1.4]
   for (var r=0; r<4; r++) {
-  console.log("line 85");
+ 
 
     for (var c=0; c<Nb; c++) state[r][c] ^= w[rnd*4+c][r];
   }
-  console.log("line 89");
+
 
   return state;
 }
@@ -98,7 +97,7 @@ function KeyExpansion(key) {  // generate Key Schedule (byte-array Nr+1 x Nb) fr
   var Nr = Nk + 6;       // no of rounds: 10/12/14 for 128/192/256-bit keys
   var w = new Array(Nb*(Nr+1));
   var temp = new Array(4);
-  console.log("line 100");
+
   for (var i=0; i<Nk; i++) {
     var r = [key[4*i], key[4*i+1], key[4*i+2], key[4*i+3]];
     w[i] = r;
@@ -120,7 +119,7 @@ function KeyExpansion(key) {  // generate Key Schedule (byte-array Nr+1 x Nb) fr
 }
 
 function SubWord(w) {    // apply SBox to 4-byte word w
-  console.log("line 123");
+ 
   
   for (var i=0; i<4; i++) w[i] = Sbox[w[i]];
   return w;

@@ -64,7 +64,9 @@ $('#decryptbutton').click(function()
 	var ciphertext=$('#ciphertext').val();
 	var decryptkey=$('#decryptkey').val();
 	var encryptkey=$('#key').val();
-
+function do_status(s) {
+			document.getElementById('decryptstatusTime').value = s;
+}
      if(algo==0)
 		   	{
 		   		bootbox.alert('Please provide decryption algorithm');
@@ -80,41 +82,53 @@ $('#decryptbutton').click(function()
 			switch(algo) {
 				
 			    case '1':    //AES
+			        var before = new Date();
+
 			          var decrypted = CryptoJS.AES.decrypt(ciphertext, decryptkey);
 					
-				 var decryptedString=decrypted.toString(CryptoJS.enc.Utf8);
-				 console.log(decryptedString);
-			         document.getElementById('decryptedtext').value = decryptedString;
-
-          			// $('#decryptedtext').value=decryptedString;
+				     var decryptedString=decrypted.toString(CryptoJS.enc.Utf8);
+				     var after = new Date();
+				     do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(decrypted) + " bytes";
+				     document.getElementById('decryptedtext').value = decryptedString;
+        
 			         
 			        break;
 			    case '2':   //RSA
-			        var privkey=$('#prikey').val();
-			        console.log('Private:'+privkey);
+                    var before = new Date();
 
+			        var privkey=$('#prikey').val();
 			        var decrypt = new JSEncrypt();
          			 decrypt.setPrivateKey(privkey);
-			    console.log('ciphertext:'+ciphertext);
+			         var uncrypted = decrypt.decrypt(ciphertext);
+          			 var after = new Date();
+			         do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(decrypt) + " bytes";
 
-          			var uncrypted = decrypt.decrypt(ciphertext);
-          			console.log('decrypted:'+uncrypted);
 			         document.getElementById('decryptedtext').value = uncrypted;
 
           			$('#decryptedtext').value=uncrypted;
 			        break;
 			    case '3':   //Digital
+                    var before = new Date();
 			        
-			    	doVerify(ciphertext);
+			    	var decypt=doVerify(ciphertext);
+			    	 var after = new Date();
+			        do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(decrypt) + " bytes";
+
 			        // key = $('#key').val();''
 			        break;
 			    case '4':  //Hash
 			        
 			        // console.log('decrypt:'+plaintext);
+                    var before = new Date();
 			        var hash = CryptoJS.HmacSHA256(plaintext, decryptkey);
   				    hash2 = CryptoJS.enc.Base64.stringify(hash);
-			        // hash1= Crypto.HMAC(Crypto.SHA1, plaintext, encryptkey);
-			        // hash2= Crypto.HMAC(Crypto.SHA1, plaintext, decryptkey);
+  				     var after = new Date();
+			         do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(hash) + " bytes";
+
 			        console.log("hash2 "+hash2);
 			        if(ciphertext===hash2)
 			        {
@@ -130,12 +144,23 @@ $('#decryptbutton').click(function()
 			        // encrypted = Crypto.HMAC(Crypto.SHA1, text, key);
 			        break;
 			 		case '5':
+                    var before = new Date();
 			 		var decypted=AESDecryptCtr(ciphertext,decryptkey,256);
+			 		 var after = new Date();
+			        do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(decrypted) + " bytes";
+
                     document.getElementById('decryptedtext').value = decypted;
 
 			 		     break;
 			 	    case '6':
+ 				   var before = new Date();
+
 			 	    var decypted=RSADecrypt();
+			 	     var after = new Date();
+			        do_status("Decryption Time: " + (after - before) + "ms");
+			         // document.getElementById('decryptmemory').value = "Memory Used: "+sizeof(decrypted) + " bytes";
+
 			 	         break;
 			    default:
 			        console.log(false);
