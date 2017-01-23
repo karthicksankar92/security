@@ -1,5 +1,5 @@
 var clientId = '1026778819871-c82k34irgjmp4oeeepqr5lpri3ehrq0c.apps.googleusercontent.com';
-      var apiKey = 'AIzaSyDPxXJNd_U8qbJYkmrGfAclLTr5oILaNi4';
+      var apiKey = '';
       var scopes =
         'https://www.googleapis.com/auth/gmail.readonly '+
         'https://www.googleapis.com/auth/gmail.send';
